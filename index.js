@@ -1,56 +1,42 @@
-import menu from "./menu.json";
-import cardsTemplates from "./templates/carsd.hbs";
 
 
+const colors = [
+  '#FFFFFF',
+  '#2196F3',
+  '#4CAF50',
+  '#FF9800',
+  '#009688',
+  '#795548',
+];
 
-const menuRef = document.querySelector('.js-menu');
-const cardsMarkUp = createMarkUpMenu(menu);
-
+const startBtn = document.querySelector('[data-action=start]');
+const stoptBtn = document.querySelector('[data-action=stop]');
 const bodyRef = document.body;
-const checkBox = document.querySelector('.theme-switch__toggle');
 
-const Theme = {
-  LIGHT: 'light-theme',
-  DARK: 'dark-theme',
+
+
+const randomIntegerFromInterval = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
+let idTime;
 
-menuRef.insertAdjacentHTML('beforeend', cardsMarkUp);
+const startColorPicker = () => {
+    const randomID = randomIntegerFromInterval(0, 5);
+    idTime = setInterval(() => {
+        // bodyRef.style.backgroundColor = colors[0];
+    }, 1000);
+};
 
-function createMarkUpMenu(menu) {
-    return cardsTemplates(menu);
+const stopColorPicker = () => {
+    clearInterval(idTime);
 }
 
+startBtn.addEventListener('click', startColorPicker);
+stoptBtn.addEventListener('click', stopColorPicker);
 
-document.addEventListener('change', classToggle);
-
-themeDefault();
-
-if (bodyRef.classList.value === Theme.DARK) {
-    checkBox.checked = true;
-}
-
-function classToggle(e) {
-   
-
-    if (e.target.checked) {
-        bodyRef.classList.add(Theme.DARK);
-        bodyRef.classList.remove(Theme.LIGHT);
-        localStorage.setItem('theme', Theme.DARK);
-    }
-    else {
-        bodyRef.classList.add(Theme.LIGHT);
-        bodyRef.classList.remove(Theme.DARK);
-        localStorage.setItem('theme', Theme.LIGHT);
-    }
-}
-
-function themeDefault() {
-    if (localStorage === null) {
-        bodyRef.classList.add(Theme.LIGHT);
-    } else {
-        bodyRef.classList.add(localStorage.getItem('theme'));
-    }
-}
-    
-
+// ingredients.forEach(ingredient => {
+//    const li = document.createElement('li');
+//    listEl.appendChild(li);
+//    li.textContent = ingredient;
+// });
